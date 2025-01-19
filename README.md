@@ -2,9 +2,8 @@
 
 [My Notes](notes.md)
 
-I have a sick game! 
-
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## Game Overview
+This is a simple game in which the user will input their name to begin. After, the game begins and two balls starting bouncing off the walls, getting faster as they go. The player can control their character, moving around the area and will keep playing as long as they avoid the balls. Their score increases as the game continues, until the chracter is hit with the ball. Powerups periodically appear, temporarily slowing down the speed of the balls or increasing the speed of the player.
 
 
 > [!NOTE]
