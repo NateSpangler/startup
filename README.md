@@ -46,18 +46,16 @@ This is where the game is played, until the player is hit by one of the balls
 
 Here the high scores are shown
 
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Name of player is stored
+- Balls are bounced around at increasingly faster rates
+- Powerups are randomly placed periodically
+- Player controls character's movement
+- When ball hits character, game is over
+- Score is stored with name of player
+- High scores are shown
 
 ### Technologies
 
