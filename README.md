@@ -34,7 +34,17 @@ Everyone is familiar with the game pong. It's simple yet fun. But what if instea
 
 ![Main Screen](images/mainscreen.jpg)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This is the main screen where the player will enter their name
+
+
+![Game Screen](images/gamescreen.jpg)
+
+This is where the game is played, until the player is hit by one of the balls
+
+
+![High Score Screen](images/highscorescreen.jpg)
+
+Here the high scores are shown
 
 ```mermaid
 sequenceDiagram
