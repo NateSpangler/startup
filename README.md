@@ -4,8 +4,7 @@
 
 ## Game Overview
 This is a simple game in which the user will input their name to begin. After, the game begins and two balls starting bouncing off the walls, getting faster as they go. The player can control their character, moving around the area and will keep playing as long as they avoid the balls. Their score increases as the game continues, until the chracter is hit with the ball. Powerups periodically appear, temporarily slowing down the speed of the balls or increasing the speed of the player.
-## Game Overview
-This is a simple game in which the user will input their name to begin. After, the game begins and two balls starting bouncing off the walls, getting faster as they go. The player can control their character, moving around the area and will keep playing as long as they avoid the balls. Their score increases as the game continues, until the chracter is hit with the ball. Powerups periodically appear, temporarily slowing down the speed of the balls or increasing the speed of the player.
+
 
 
 > [!NOTE]
