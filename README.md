@@ -1,4 +1,4 @@
-# Your startup name here
+# Pong Chaos
 
 [My Notes](notes.md)
 
