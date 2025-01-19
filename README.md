@@ -63,12 +63,15 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Has 3 different HTML pages. One for the main screen, one for the game itself, and one with the high scores. The high scores and main screen have links to each other.
+- **CSS** - Easy to read font, nice and big. Preferably white, to keep a retro asthetic. With a black background. 
+- **React** - Has a name box, balls that move and get faster. Character is controlled with arrow keys. 
+- **Service** - Backend service with endpoints for:
+-Storing high scores and names
+-Login in with name
+-Retrieve a random fact to display 
+- **DB/Login** - Stores the 5 top high scores
+- **WebSocket** - Anytime a user creates a new game
 
 ## 🚀 AWS deliverable
 
