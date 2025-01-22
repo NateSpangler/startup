@@ -9,12 +9,18 @@
 - [MDN](https://developer.mozilla.org)
 
 ## Github
-WHen it comes to github, I need to commit the changes I make, very frequently. 
+When it comes to github, I need to commit the changes I make, very frequently. 
 
 ## AWS
+The collection of technologies that you use to create or deliver your web application is called a technology stack. Generally at the top of the stack is your web framework.
 
+an IP address can be referenced by a domain name
 
-No problems worked just like it said in the [instruction](https://github.com/webprogramming260/.github/blob/main/profile/webServers/https/https.md).
+The Amazon Web services EC2 has a ton of useful info about the server.
+
+IP address of my server: http://44.211.203.75/
+
+Command to remote shell into my server - ➜  ssh -i [key pair file] ubuntu@[ip address]
 
 ## HTML
 
