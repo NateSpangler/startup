@@ -22,11 +22,34 @@ IP address of my server: http://44.211.203.75/
 
 Command to remote shell into my server - ➜  ssh -i [key pair file] ubuntu@[ip address]
 
+Domain names are broken up into a root domain, with one or more possible subdomain prefixes
+
 ## HTML
+HTML is almost completely about structure, not so much about visual appearance
+Elements are represented with enclosing tags. Ex: <body> </body>
+HTML defines a header (<!DOCTYPE html>) that tells the browser the type and version of the document. You should always include this at the top of the HTML file.
+Always start with the html element Ex:<!DOCTYPE html>
+                                      <html lang = "en"> 
+                                          <head>
+                                          </head>
+                                          <body>
+                                          </body>
+                                       </html>
+Every element can have attributes
+Attributes describe the specific details of the element Ex: class = "opener"
+Hyperlinks are represented with an anchor element with href as an attribute. Ex: <a href = "faecbook.com/bobgrader">My Facebook</a>
+You can include comments in your HTML files by starting the comment with <!-- and ending it with -->
+There are special characters that you have to escape using the entity syntax:
+Character	Entity
+    &	    &amp;
+    <	    &lt;
+    >	    &gt;
+    "	    &quot;
+    '	    &apos;
+    😀	  &#128512;
+A block element is meant to be a distinct block in the flow of the content structure
+An inline element is meant to be inline with the content flow of a block element
 
-This was easy. I was careful to use the correct structural elements such as header, footer, main, nav, and form. The links between the three views work great using the `a` element.
-
-The part I didn't like was the duplication of the header and footer code. This is messy, but it will get cleaned up when I get to React.
 
 ## CSS
 
