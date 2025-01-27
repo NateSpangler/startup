@@ -50,6 +50,10 @@ Character	Entity
 A block element is meant to be a distinct block in the flow of the content structure
 An inline element is meant to be inline with the content flow of a block element
 
+Inputs:
+Form-The main purpose of the form element is to submit the values of the inputs it contains. 
+Input element-represents many different input types. You set the type of input with the type attribute. 
+
 
 ## CSS
 
