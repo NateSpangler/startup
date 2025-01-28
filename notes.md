@@ -54,6 +54,10 @@ Inputs:
 Form-The main purpose of the form element is to submit the values of the inputs it contains. 
 Input element-represents many different input types. You set the type of input with the type attribute. 
 
+To upload to production environment:
+./deployFiles.sh -k <yourpemkey> -h <yourdomain> -s startup 
+
+This was not too bad, I just had to make sure I got the footer where I wanted it to. I created an image for the character and iamges for the pong balls. These still don't show since I have not made the background black yet.
 
 ## CSS
 
