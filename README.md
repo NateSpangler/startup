@@ -67,8 +67,8 @@ I am going to use the required technologies in the following ways.
 - **Service** - Backend service with endpoints for:
 -Storing high scores and names
 -Login in with name
--Retrieve a random fact to display 
-- **DB/Login** - Stores the 5 top high scores
+-Random fact
+- **DB/Login** - Stores the 3 top high scores
 - **WebSocket** - Anytime a user creates a new game
 
 ## 🚀 AWS deliverable
@@ -85,11 +85,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Proper HTML element usage** - I included headers, body, and footers on each page. Along with navigation at the top.
 - [x] **Links** - The navigation bar has links to the home page and high scores page. I also included ny github link on every page.
 - [x] **Text** - There is text explaining that the user enter their name.
-- [x] **3rd party API placeholder** - I did this part.
+- [x] **3rd party API placeholder** - A random fact will be stored in the footer of the home page.
 - [x] **Images** - I included the character image on the play screen.
-- [x] **Login placeholder** - I put a text box that asks for the user's name.
-- [x] **DB data placeholder** - High scores are stored in server so that the top 3 can be displayed
-- [x] **WebSocket placeholder** - Game is ready with images
+- [x] **Login placeholder** - I put a text box that asks for the user's name. I also included the name of the game on each page.
+- [x] **DB data placeholder** - Text box with submit button to store user's name.
+- [x] **WebSocket placeholder** - High scores are stored in server so that the top 3 can be displayed.
 
 ## 🚀 CSS deliverable
 
