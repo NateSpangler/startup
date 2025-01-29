@@ -75,21 +75,21 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://pongchaos.com).
 
 ## 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - I did the HTML pages. There is an index, play, and high score HTML page. 
+- [x] **Proper HTML element usage** - I included headers, body, and footers on each page. Along with navigation at the top.
+- [x] **Links** - The navigation bar has links to the home page and high scores page. I also included ny github link on every page.
+- [x] **Text** - There is text explaining that the user enter their name.
+- [x] **3rd party API placeholder** - I did this part.
+- [x] **Images** - I included the character image on the play screen.
+- [x] **Login placeholder** - I put a text box that asks for the user's name.
+- [x] **DB data placeholder** - High scores are stored in server so that the top 3 can be displayed
+- [x] **WebSocket placeholder** - Game is ready with images
 
 ## 🚀 CSS deliverable
 
