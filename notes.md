@@ -66,6 +66,10 @@ The rules cascade down from the highest nodes in the DOM tree to the lowest leve
 
 ![alt text](image.png)
 
+CSS treats every element as a series of nested rectangular boxes. The innermost box contains the actual content (like text or images). Surrounding that is the padding, which inherits styling such as background color. Next is the border, which can have specific properties like color and thickness. Finally, the margin wraps the element, providing whitespace without affecting the styling.
+
+You can change the box-sizing CSS property from the default value of content-box to border-box in order to redefine the width and height to also include the padding and the border. This often makes it easier to style elements when their visual size matches their actual size.
+
 
 ## React Part 1: Routing
 
