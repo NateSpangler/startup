@@ -70,6 +70,7 @@ CSS treats every element as a series of nested rectangular boxes. The innermost 
 
 You can change the box-sizing CSS property from the default value of content-box to border-box in order to redefine the width and height to also include the padding and the border. This often makes it easier to style elements when their visual size matches their actual size.
 
+I had some diffculty with spacing for the menu but I figured it out. The balls look super cool and I am happy with how the website looks so far.
 
 ## React Part 1: Routing
 
