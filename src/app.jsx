@@ -4,7 +4,7 @@ import './app.css';
 
 export default function App() {
   return (
-    <div className="body">
+    <div className="body bg-dark text-light">
         <header>
                 <br> </br>
                 <button className="shiny-cta"> Pong Chaos</button>
@@ -16,8 +16,10 @@ export default function App() {
                     </menu>
             </nav>
         </header>
-        <main>App components go here</main>
-        <footer>
+
+        <main className="body">App components go here</main>
+
+        <footer>\
             <br> </br>
             <br> </br>
             <br> </br>
