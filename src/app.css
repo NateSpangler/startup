@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap");
+
 * {
     margin: 0;
     padding: 20;
@@ -103,7 +105,6 @@ td {
     
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap");
 
 :root {
   --shiny-cta-bg: #000000;
