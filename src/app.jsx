@@ -2,26 +2,43 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Login } from './login/login';
+import { Play } from './play/play';
+import { Scores } from './scores/scores';
+
 export default function App() {
   return (
+    <BrowserRouter>
     <div className="body bg-dark text-light">
-        <br></br>
         <header>
-            <button class="shiny-cta"> Pong Chaos</button>
+          <br></br>
+            <button className="shiny-cta"> Pong Chaos</button>
             <nav>
                 <menu>
-                    <a href="index.html">Home</a>
-                    <br></br>
-                    <a href="scores.html">High Scores</a>
+                    <li>
+                      <NavLink className="nav-link" to="">
+                        Home
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="nav-link" to='scores'>
+                        High Scores
+                      </NavLink>
+                    </li>
                 </menu>
            </nav>
         </header>
+
         <main>
-            <br></br>
-            <br></br>
-            <br></br>
-            Here is where main will go
+            <Routes>
+              <Route path='/' element={<Login />} exact />
+              <Route path='/play' element={<Play />} />
+              <Route path='/scores' element={<Scores />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
         </main>
+
         <footer>
             <br></br>
             <br></br>
@@ -34,10 +51,16 @@ export default function App() {
             <p>Random Fact: </p>
             <br></br>
             <br></br>
-            <span class="text-reset">Nate Spangler</span>
+            <span className="text-reset">Nate Spangler</span>
             <br></br>
             <a href="https://github.com/NateSpangler/startup">Github</a>
       </footer>
     </div>
+    </BrowserRouter>
   );
+}
+
+
+function NotFound() {
+  return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
 }

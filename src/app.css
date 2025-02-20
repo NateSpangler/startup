@@ -22,12 +22,23 @@
     -webkit-font-smoothing: antialiased;
   }
 
-.menu{
-    text-align: center;
-    justify-content: center;
+menu {
+    flex: 1;
+    display: flex;
+    /*  overwrite Bootstrap so the menu does not wrap */
+    flex-direction: row !important;
+    list-style: none;
+  }
 
-}
+  .navbar-brand{
+    padding-left: 0.3em;
+    border-bottom: solid rgb(182, 182, 182) thin;
+  }
 
+  menu .nav-item {
+    padding: 0 0.3em;
+  }
+  
 .shiny-cta{
     margin-bottom: 2rem;
 }
