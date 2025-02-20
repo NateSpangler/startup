@@ -106,9 +106,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - Routing between login and voting components.
+- [x] **Bundled using Vite** - I bundled it using VITE
+- [x] **Components** - I successfully converted my html to react components. It looks great!
+- [x] **Router** - There is routing between the login and scores page. You can also acess the play page by logging in.
 
 ## 🚀 React part 2: Reactivity
 
