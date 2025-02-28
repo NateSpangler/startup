@@ -44,25 +44,6 @@ export default function App() {
             <br></br>
             <br></br>
             <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br><br></br>
-            <br></br>
-            <br></br><br></br>
-            <br></br>
-            <br></br><br></br>
-            <br></br>
-            <br></br>
             <p>Random Fact: </p>
             <br></br>
             <br></br>

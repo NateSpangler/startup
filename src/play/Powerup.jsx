@@ -1,30 +1,43 @@
-// PowerUp.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 
-export function PowerUp({ type, position, onPickUp }) {
-  const [isPickedUp, setIsPickedUp] = useState(false);
+const Powerup = ({ gameWidth, gameHeight, onCollect }) => {
+  const [powerup, setPowerup] = useState(null);
 
   useEffect(() => {
-    // Automatically disappear after a set duration (e.g., 10 seconds)
-    if (isPickedUp) {
-      setTimeout(() => {
-        setIsPickedUp(false);  // Power-up disappears after use
-      }, 10000);  // Power-up lasts for 10 seconds
-    }
-  }, [isPickedUp]);
+    const spawnPowerup = () => {
+      const types = ["invincible", "slow"];
+      const type = types[Math.floor(Math.random() * types.length)];
+      setPowerup({
+        type,
+        x: Math.random() * (gameWidth - 20),
+        y: Math.random() * (gameHeight - 20),
+      });
 
-  const handlePickUp = () => {
-    setIsPickedUp(true);
-    onPickUp(type); // Notify the parent component about the power-up pick-up
-  };
+      setTimeout(() => setPowerup(null), 10000);
+    };
 
-  return !isPickedUp ? (
+    const powerupInterval = setInterval(spawnPowerup, 30000);
+    return () => clearInterval(powerupInterval);
+  }, [gameWidth, gameHeight]);
+
+  if (!powerup) return null;
+
+  return (
     <div
-      className={`power-up ${type}`}
-      style={{ top: position.top, left: position.left }}
-      onClick={handlePickUp}
-    >
-      {type === 'invincibility' ? '⚡' : '🐢'} {/* Example icons */}
-    </div>
-  ) : null;
-}
+      onClick={() => onCollect(powerup.type)}
+      style={{
+        position: "absolute",
+        width: "20px",
+        height: "20px",
+        backgroundColor: powerup.type === "invincible" ? "yellow" : "green",
+        borderRadius: "50%",
+        left: `${powerup.x}px`,
+        top: `${powerup.y}px`,
+        cursor: "pointer",
+      }}
+    />
+  );
+};
+
+export default Powerup;
+
