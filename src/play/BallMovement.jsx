@@ -1,67 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-
-const BallMovement = ({ playerPosition, onGameOver }) => {
-  const [ballPositions, setBallPositions] = useState([
-    { x: 10, y: 10, dx: 2, dy: 2 },
-    { x: 90, y: 90, dx: -2, dy: -2 },
-  ]);
+export default function BallMovement({ ballSpeed, onGameOver, invincible }) {
+  const [ballPosition1, setBallPosition1] = useState({ top: 50, left: 50 });
+  const [ballPosition2, setBallPosition2] = useState({ top: 100, left: 100 });
+  const [ballDirection1, setBallDirection1] = useState({ top: 2, left: 2 });
+  const [ballDirection2, setBallDirection2] = useState({ top: 2, left: -2 });
 
   useEffect(() => {
-    const moveBalls = () => {
-      setBallPositions((prevPositions) =>
-        prevPositions.map((ball) => {
-          let newX = ball.x + ball.dx;
-          let newY = ball.y + ball.dy;
+    const interval = setInterval(() => {
+      // Update ball positions based on speed and direction
+      setBallPosition1((prevPosition) => ({
+        top: prevPosition.top + ballDirection1.top * ballSpeed,
+        left: prevPosition.left + ballDirection1.left * ballSpeed
+      }));
+      setBallPosition2((prevPosition) => ({
+        top: prevPosition.top + ballDirection2.top * ballSpeed,
+        left: prevPosition.left + ballDirection2.left * ballSpeed
+      }));
 
-          if (newX <= 0 || newX >= 100) ball.dx = -ball.dx;
-          if (newY <= 0 || newY >= 100) ball.dy = -ball.dy;
-
-          return { ...ball, x: newX, y: newY };
-        })
-      );
-    };
-
-    const interval = setInterval(moveBalls, 20);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const checkCollision = () => {
-    ballPositions.forEach((ball) => {
-      const ballRadius = 2;
-      const playerRadius = 2;
-
-      const distance = Math.sqrt(
-        Math.pow(ball.x - playerPosition.x, 2) + Math.pow(ball.y - playerPosition.y, 2)
-      );
-
-      if (distance < ballRadius + playerRadius) {
-        onGameOver();
+      // Bounce balls off top/bottom walls
+      if (ballPosition1.top < 0 || ballPosition1.top > 500) {
+        setBallDirection1((prev) => ({ ...prev, top: -prev.top }));
       }
-    });
-  };
+      if (ballPosition1.left < 0 || ballPosition1.left > 500) {
+        setBallDirection1((prev) => ({ ...prev, left: -prev.left }));
+      }
 
-  useEffect(() => {
-    const collisionCheckInterval = setInterval(checkCollision, 20);
+      if (ballPosition2.top < 0 || ballPosition2.top > 500) {
+        setBallDirection2((prev) => ({ ...prev, top: -prev.top }));
+      }
+      if (ballPosition2.left < 0 || ballPosition2.left > 500) {
+        setBallDirection2((prev) => ({ ...prev, left: -prev.left }));
+      }
 
-    return () => clearInterval(collisionCheckInterval);
-  }, [ballPositions, playerPosition]);
+      // Handle ball collision with the player (e.g., player at position {top: 400, left: 200})
+      // Simple collision detection (assuming player is 50px wide and at y=400)
+      if (
+        ballPosition1.top >= 400 && ballPosition1.top <= 420 &&
+        ballPosition1.left >= 200 && ballPosition1.left <= 250
+      ) {
+        if (!invincible) {
+          onGameOver(); // End game if player is not invincible
+        }
+      }
+
+      if (
+        ballPosition2.top >= 400 && ballPosition2.top <= 420 &&
+        ballPosition2.left >= 200 && ballPosition2.left <= 250
+      ) {
+        if (!invincible) {
+          onGameOver(); // End game if player is not invincible
+        }
+      }
+    }, 20); // Update every 20ms (50 FPS)
+
+    return () => clearInterval(interval); // Cleanup interval when component unmounts
+  }, [ballPosition1, ballPosition2, ballDirection1, ballDirection2, ballSpeed, invincible, onGameOver]);
 
   return (
-    <>
-      {ballPositions.map((ball, index) => (
-        <div
-          key={index}
-          className="ball"
-          style={{
-            top: `${ball.y}%`,
-            left: `${ball.x}%`,
-          }}
-        ></div>
-      ))}
-    </>
+    <div>
+      <div
+        className="ball"
+        style={{
+          top: ballPosition1.top,
+          left: ballPosition1.left,
+          position: 'absolute',
+          width: '30px',
+          height: '30px',
+          borderRadius: '50%',
+          backgroundColor: 'red',
+        }}
+      ></div>
+      <div
+        className="ball"
+        style={{
+          top: ballPosition2.top,
+          left: ballPosition2.left,
+          position: 'absolute',
+          width: '30px',
+          height: '30px',
+          borderRadius: '50%',
+          backgroundColor: 'blue',
+        }}
+      ></div>
+    </div>
   );
-};
-
-export default ballMovement;
+}

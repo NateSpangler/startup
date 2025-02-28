@@ -39,4 +39,4 @@ const PlayerMovement = () => {
   );
 };
 
-export default playerMovement;
+export default PlayerMovement;
