@@ -17,14 +17,17 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
         if (x + 20 > gameWidth || x < 0) dx = -dx;
         if (y + 20 > gameHeight || y < 0) dy = -dy;
 
-        let newPos = { x: x + dx, y: y + dy, dx, dy };
-        updateBallPosition(newPos);
-        return newPos;
+        return { x: x + dx, y: y + dy, dx, dy };
       });
     }, 50);
 
     return () => clearInterval(interval);
   }, [gameWidth, gameHeight, speed]);
+
+  // ✅ NEW useEffect to update Play.jsx AFTER rendering
+  useEffect(() => {
+    updateBallPosition(position);
+  }, [position]); // Runs only when the ball's position changes
 
   return (
     <div
@@ -32,7 +35,7 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
         position: "absolute",
         width: "20px",
         height: "20px",
-        backgroundColor: "red",
+        backgroundColor: "white",
         borderRadius: "50%",
         left: `${position.x}px`,
         top: `${position.y}px`,
