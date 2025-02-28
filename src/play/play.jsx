@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlayerMovement from './PlayerMovement';
 import BallMovement from './BallMovement';
 import { PowerUp } from './PowerUp';
@@ -23,9 +23,15 @@ export function Play() {
       };
       setPowerUps((prev) => [...prev, newPowerUp]);
     }, 30000);
-
+  
+    // Increase score every second
+    const scoreInterval = setInterval(() => {
+      setScore(prevScore => prevScore + 1); // Increment score by 1 every second
+    }, 1000); // Update every 1000ms (1 second)
     return () => clearInterval(interval); // Cleanup when component unmounts
   }, []);
+  
+ 
 
   const handlePowerUpPickUp = (type) => {
     if (type === 'invincibility') {
@@ -39,6 +45,7 @@ export function Play() {
 
   const handleGameOver = () => {
     setIsGameOver(true);
+    setScore(0); // Reset score when game over
   };
 
   const handleRestart = () => {
@@ -50,7 +57,7 @@ export function Play() {
 
   return (
     <main>
-      <div className="score">Score: {score}</div>
+      <div id="highScoreDisplay" className="score">Score: {score}</div> {/* Display current score */}
 
       {isGameOver ? (
         <div className="game-over-screen">

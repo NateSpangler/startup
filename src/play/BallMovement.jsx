@@ -60,29 +60,20 @@ export default function BallMovement({ ballSpeed, onGameOver, invincible }) {
   return (
     <div>
       <div
-        className="ball"
-        style={{
-          top: ballPosition1.top,
-          left: ballPosition1.left,
-          position: 'absolute',
-          width: '30px',
-          height: '30px',
-          borderRadius: '50%',
-          backgroundColor: 'red',
-        }}
-      ></div>
-      <div
-        className="ball"
-        style={{
-          top: ballPosition2.top,
-          left: ballPosition2.left,
-          position: 'absolute',
-          width: '30px',
-          height: '30px',
-          borderRadius: '50%',
-          backgroundColor: 'blue',
-        }}
-      ></div>
+  className="ball"
+  style={{
+    top: ballPosition1.top,
+    left: ballPosition1.left,
+  }}
+></div>
+
+<div
+  className="ball"
+  style={{
+    top: ballPosition2.top,
+    left: ballPosition2.left,
+  }}
+></div>
     </div>
   );
 }
