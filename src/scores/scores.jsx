@@ -1,14 +1,43 @@
 import React from 'react';
 
+
 export function Scores() {
+  const [scores, setScores] = React.useState([]);
+
+  // Demonstrates calling a service asynchronously so that
+  // React can properly update state objects with the results.
+  React.useEffect(() => {
+    const scoresText = localStorage.getItem('scores');
+    if (scoresText) {
+      setScores(JSON.parse(scoresText));
+    }
+  }, []);
+
+  // Demonstrates rendering an array with React
+  const scoreRows = [];
+  if (scores.length) {
+    for (const [i, score] of scores.entries()) {
+      scoreRows.push(
+        <tr key={i}>
+          <td>{i}</td>
+          <td>{score.name.split('@')[0]}</td>
+          <td>{score.score}</td>
+          <td>{score.date}</td>
+        </tr>
+      );
+    }
+  } else {
+    scoreRows.push(
+      <tr key='0'>
+        <td colSpan='4'>Be the first to score</td>
+      </tr>
+    );
+  }
+
   return (
-    <main >
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <table className="table_spacing">
-        <thead>
+    <main className='container-fluid bg-secondary text-center'>
+      <table className='table table-warning table-striped-columns'>
+        <thead className='table-dark'>
           <tr>
             <th>#</th>
             <th>Name</th>
@@ -16,28 +45,8 @@ export function Scores() {
             <th>Date</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Jacob</td>
-            <td>3884857</td>
-            <td>01/03/25</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Isabelle</td>
-            <td>2944222</td>
-            <td>02/05/25</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Nate</td>
-            <td>713432</td>
-            <td>02/15/25</td>
-          </tr>
-        </tbody>
+        <tbody id='scores'>{scoreRows}</tbody>
       </table>
     </main>
   );
-  
 }
