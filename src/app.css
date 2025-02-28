@@ -7,7 +7,13 @@
     text-decoration: none;
 }
 
-
+/* Player styling */
+.player {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+}
 
 .body {
     display: grid;
@@ -64,19 +70,12 @@ td {
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    position: fixed;
+    position: absolute;
     top: calc(50% - 15px);
     left: calc(50% - 15px);
 }
 
-.ball2 {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    position: fixed;
-    top: calc(70% - 15px);
-    left: calc(50% - 15px);
-}
+
 
 .ball_effect {
     height: 100%;

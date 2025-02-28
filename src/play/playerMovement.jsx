@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './app.css'; // Import your CSS file
+
 
 const PlayerMovement = () => {
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
@@ -39,4 +39,4 @@ const PlayerMovement = () => {
   );
 };
 
-export default PlayerMovement;
+export default playerMovement;
