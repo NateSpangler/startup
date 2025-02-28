@@ -39,4 +39,5 @@ export function Scores() {
       </table>
     </main>
   );
+  
 }

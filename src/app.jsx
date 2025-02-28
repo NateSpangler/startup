@@ -41,9 +41,6 @@ export default function App() {
 
         <footer>
             <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
             <p>Random Fact: </p>
             <br></br>
             <br></br>

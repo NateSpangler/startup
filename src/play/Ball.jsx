@@ -33,8 +33,8 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
     <div
       style={{
         position: "absolute",
-        width: "20px",
-        height: "20px",
+        width: "40px",
+        height: "40px",
         backgroundColor: "white",
         borderRadius: "50%",
         left: `${position.x}px`,

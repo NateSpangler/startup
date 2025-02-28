@@ -7,7 +7,7 @@ const Player = ({ gameWidth, gameHeight, setPlayerPosition }) => {
     const handleKeyDown = (event) => {
       setPosition((prev) => {
         let { x, y } = prev;
-        const speed = 10;
+        const speed = 20;
 
         if (event.key === "ArrowUp" && y > 0) y -= speed;
         if (event.key === "ArrowDown" && y < gameHeight - 20) y += speed;
@@ -30,8 +30,8 @@ const Player = ({ gameWidth, gameHeight, setPlayerPosition }) => {
     <div
       style={{
         position: "absolute",
-        width: "20px",
-        height: "20px",
+        width: "40px",
+        height: "40px",
         backgroundColor: "blue",
         borderRadius: "50%",
         left: `${position.x}px`,

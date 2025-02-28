@@ -4,8 +4,8 @@ import Ball from "./Ball";
 import Powerup from "./Powerup";
 
 const Play = () => {
-  const gameWidth = 600;
-  const gameHeight = 400;
+  const gameWidth = 1200;
+  const gameHeight = 600;
   const [playerPosition, setPlayerPosition] = useState({ x: gameWidth / 2, y: gameHeight / 2 });
   const [ballPositions, setBallPositions] = useState([]);
   const [ballSpeed, setBallSpeed] = useState(5);
@@ -35,7 +35,7 @@ const Play = () => {
           if (ball.x >= 0 && ball.x <= gameWidth - 20 && ball.y >= 0 && ball.y <= gameHeight - 20) {
             let dx = Math.abs(playerPosition.x - ball.x);
             let dy = Math.abs(playerPosition.y - ball.y);
-            if (dx < 1 && dy < 1) {
+            if (dx < 20 && dy < 20) {
               endGame();
               return;
             }
@@ -114,7 +114,6 @@ const Play = () => {
         <div style={{ textAlign: "center", marginTop: "150px" }}>
           <h2>Game Over</h2>
           <p>Your Score: {score}</p>
-          <button onClick={handleRestart}>Play Again</button>
         </div>
       )}
     </div>

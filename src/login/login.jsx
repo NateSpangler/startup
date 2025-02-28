@@ -15,6 +15,22 @@ export function Login() {
       <input type="name:" id="name" className="entername" name="name" placeholder="" required pattern="[Aa].*" />
       <button className="shiny-cta"><NavLink to="/play">Let's do this</NavLink>
       </button>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </main>
   
   );
