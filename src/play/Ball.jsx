@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
   const [position, setPosition] = useState({
@@ -7,6 +7,8 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
     dx: Math.random() > 0.5 ? speed : -speed,
     dy: Math.random() > 0.5 ? speed : -speed,
   });
+
+  const ballRef = useRef(null); // Ref to track the rendered ball element
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,13 +26,18 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
     return () => clearInterval(interval);
   }, [gameWidth, gameHeight, speed]);
 
-  // ✅ NEW useEffect to update Play.jsx AFTER rendering
   useEffect(() => {
     updateBallPosition(position);
-  }, [position]); // Runs only when the ball's position changes
+    // Track rendered ball position
+    if (ballRef.current) {
+      const { x, y } = ballRef.current.getBoundingClientRect();
+      console.log(`Rendered Ball Position: x=${x}, y=${y}`);
+    }
+  }, [position, updateBallPosition]);
 
   return (
     <div
+      ref={ballRef} // Attach the ref here
       style={{
         position: "absolute",
         width: "40px",

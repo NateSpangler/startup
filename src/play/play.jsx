@@ -8,10 +8,13 @@ const Play = () => {
   const gameHeight = 600;
   const [playerPosition, setPlayerPosition] = useState({ x: gameWidth / 2, y: gameHeight / 2 });
   const [ballPositions, setBallPositions] = useState([]);
-  const [ballSpeed, setBallSpeed] = useState(5);
+  const [ballSpeed, setBallSpeed] = useState(6);
   const [isInvincible, setIsInvincible] = useState(false);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  
+
+
 
   // Update ball positions
   const updateBallPosition = (ball) => {
@@ -30,21 +33,28 @@ const Play = () => {
 
     const checkCollision = () => {
       if (!isInvincible) {
-        for (let ball of ballPositions) {
+        ballPositions.forEach((ball) => { 
           // Ensure the ball is within the game area before checking collision
           if (ball.x >= 0 && ball.x <= gameWidth - 20 && ball.y >= 0 && ball.y <= gameHeight - 20) {
             let dx = Math.abs(playerPosition.x - ball.x);
             let dy = Math.abs(playerPosition.y - ball.y);
-            if (dx < 20 && dy < 20) {
+          // Debugging logs
+          //console.log(`Player Position: x=${playerPosition.x}, y=${playerPosition.y}`);
+          //console.log(`Ball Position: x=${ball.x}, y=${ball.y}`);
+          //console.log(`dx: ${dx}, dy: ${dy}`);
+          //console.log(`Collision Check: dx < 40: ${dx < 40}, dy < 40: ${dy < 40}`);
+
+            if (dx < 40 && dy < 40) {
+              console.log("Collision detected! Ending game.");
               endGame();
               return;
             }
           }
-        }
+        })
       }
     };
 
-    const collisionInterval = setInterval(checkCollision, 50);
+    const collisionInterval = setInterval(checkCollision, 10);
     return () => clearInterval(collisionInterval);
   }, [playerPosition, ballPositions, isInvincible, gameOver]);
 
@@ -53,7 +63,7 @@ const Play = () => {
     if (gameOver) return;
 
     const scoreInterval = setInterval(() => {
-      setScore((prev) => prev + 1);
+      setScore((prev) => prev + 100);
     }, 1000);
 
     return () => clearInterval(scoreInterval);
@@ -76,7 +86,7 @@ const Play = () => {
   const handleRestart = () => {
     setGameOver(false);
     setScore(0);
-    setBallSpeed(5);
+    setBallSpeed(6);
     setIsInvincible(false);
     setPlayerPosition({ x: gameWidth / 2, y: gameHeight / 2 });
   };
@@ -101,7 +111,9 @@ const Play = () => {
         border: "2px solid black",
         overflow: "hidden",
       }}
+
     >
+      
       {!gameOver ? (
         <>
           <Player gameWidth={gameWidth} gameHeight={gameHeight} setPlayerPosition={setPlayerPosition} />
