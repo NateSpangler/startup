@@ -30,7 +30,7 @@ const Play = () => {
 
     const checkCollision = () => {
       if (!isInvincible) {
-        ballPositions.forEach((ball) => { 
+        ballPositions.forEach((ball) => {
           if (ball.x >= 0 && ball.x <= gameWidth - 20 && ball.y >= 0 && ball.y <= gameHeight - 20) {
             let dx = Math.abs(playerPosition.x - ball.x);
             let dy = Math.abs(playerPosition.y - ball.y);
@@ -41,7 +41,7 @@ const Play = () => {
               return;
             }
           }
-        })
+        });
       }
     };
 
@@ -108,12 +108,12 @@ const Play = () => {
       {!gameOver ? (
         <>
           {/* Pass setPlayerPosition instead of setPosition */}
-          <Player gameWidth={gameWidth} gameHeight={gameHeight} setPosition={setPlayerPosition} />
-          
+          <Player gameWidth={gameWidth} gameHeight={gameHeight} setPlayerPosition={setPlayerPosition} />
+
           {/* Pass updateBallPosition instead of setPosition */}
           <Ball gameWidth={gameWidth} gameHeight={gameHeight} speed={ballSpeed} updateBallPosition={updateBallPosition} />
           <Ball gameWidth={gameWidth} gameHeight={gameHeight} speed={ballSpeed} updateBallPosition={updateBallPosition} />
-          
+
           <Powerup gameWidth={gameWidth} gameHeight={gameHeight} onCollect={handlePowerup} />
           <div style={{ position: "absolute", top: "10px", left: "10px", fontSize: "18px" }}>Score: {score}</div>
         </>

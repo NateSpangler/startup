@@ -53,3 +53,4 @@ const Player = ({ gameWidth, gameHeight, setPlayerPosition }) => {
 };
 
 export default Player;
+
