@@ -12,7 +12,7 @@ export function Login() {
       <br></br>
       <br></br>
       <label for="Enter your name:" className="entername">Enter your name: </label>
-      <input type="name:" id="name" className="entername" name="name" placeholder="" required pattern="[Aa].*" />
+      <input type="text" id="name" className="entername" name="name" placeholder="Your name" required pattern="[Aa].*" onChange={(e) => setPlayerName(e.target.value)}/>
       <button className="shiny-cta"><NavLink to="/play">Let's do this</NavLink>
       </button>
       <br></br>

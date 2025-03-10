@@ -12,9 +12,6 @@ const Play = () => {
   const [isInvincible, setIsInvincible] = useState(false);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  
-
-
 
   // Update ball positions
   const updateBallPosition = (ball) => {
@@ -34,15 +31,9 @@ const Play = () => {
     const checkCollision = () => {
       if (!isInvincible) {
         ballPositions.forEach((ball) => { 
-          // Ensure the ball is within the game area before checking collision
           if (ball.x >= 0 && ball.x <= gameWidth - 20 && ball.y >= 0 && ball.y <= gameHeight - 20) {
             let dx = Math.abs(playerPosition.x - ball.x);
             let dy = Math.abs(playerPosition.y - ball.y);
-          // Debugging logs
-          //console.log(`Player Position: x=${playerPosition.x}, y=${playerPosition.y}`);
-          //console.log(`Ball Position: x=${ball.x}, y=${ball.y}`);
-          //console.log(`dx: ${dx}, dy: ${dy}`);
-          //console.log(`Collision Check: dx < 40: ${dx < 40}, dy < 40: ${dy < 40}`);
 
             if (dx < 40 && dy < 40) {
               console.log("Collision detected! Ending game.");
@@ -76,8 +67,10 @@ const Play = () => {
       alert(`Game Over! Your Score: ${score}`);
 
       let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-      highscores.push(score);
-      highscores = highscores.sort((a, b) => b - a).slice(0, 3);
+      let playerName = localStorage.getItem("playerName");
+
+      highscores.push({ name: playerName, score });
+      highscores = highscores.sort((a, b) => b.score - a.score).slice(0, 10);
       localStorage.setItem("highscores", JSON.stringify(highscores));
     }
   };
@@ -111,14 +104,16 @@ const Play = () => {
         border: "2px solid black",
         overflow: "hidden",
       }}
-
     >
-      
       {!gameOver ? (
         <>
-          <Player gameWidth={gameWidth} gameHeight={gameHeight} setPlayerPosition={setPlayerPosition} />
+          {/* Pass setPlayerPosition instead of setPosition */}
+          <Player gameWidth={gameWidth} gameHeight={gameHeight} setPosition={setPlayerPosition} />
+          
+          {/* Pass updateBallPosition instead of setPosition */}
           <Ball gameWidth={gameWidth} gameHeight={gameHeight} speed={ballSpeed} updateBallPosition={updateBallPosition} />
           <Ball gameWidth={gameWidth} gameHeight={gameHeight} speed={ballSpeed} updateBallPosition={updateBallPosition} />
+          
           <Powerup gameWidth={gameWidth} gameHeight={gameHeight} onCollect={handlePowerup} />
           <div style={{ position: "absolute", top: "10px", left: "10px", fontSize: "18px" }}>Score: {score}</div>
         </>

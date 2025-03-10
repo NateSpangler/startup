@@ -10,6 +10,7 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
 
   const ballRef = useRef(null); // Ref to track the rendered ball element
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setPosition((prev) => {
@@ -27,13 +28,12 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
   }, [gameWidth, gameHeight, speed]);
 
   useEffect(() => {
-    updateBallPosition(position);
+    // setPosition(position);
     // Track rendered ball position
     if (ballRef.current) {
       const { x, y } = ballRef.current.getBoundingClientRect();
-      console.log(`Rendered Ball Position: x=${x}, y=${y}`);
     }
-  }, [position, updateBallPosition]);
+  }, [position]);
 
   return (
     <div
