@@ -40,13 +40,13 @@ export default function App() {
         </main>
 
         <footer>
+            
+            <p style={{textAlign:"center"}}>Random Fact: </p>
             <br></br>
-            <p>Random Fact: </p>
             <br></br>
+            <span style={{textAlign:"center"}}>Nate Spangler</span>
             <br></br>
-            <span className="text-reset">Nate Spangler</span>
-            <br></br>
-            <a href="https://github.com/NateSpangler/startup">Github</a>
+            <a style={{textAlign:"center"}} href="https://github.com/NateSpangler/startup">Github</a>
       </footer>
     </div>
     </BrowserRouter>

@@ -95,11 +95,12 @@ const Play = () => {
           {/* Pass setPlayerPosition instead of setPosition */}
           <Player gameWidth={gameWidth} gameHeight={gameHeight} setPlayerPosition={setPlayerPosition} />
 
-          {/* Pass updateBallPosition instead of setPosition */}
+          
           <Ball gameWidth={gameWidth} gameHeight={gameHeight} speed={ballSpeed} setBallPosition={setBallPosition} />
           
           
           <div style={{ position: "absolute", top: "10px", left: "10px", fontSize: "18px" }}>Score: {score}</div>
+          
         </>
       ) : (
         <div style={{ textAlign: "center", marginTop: "150px" }}>

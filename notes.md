@@ -94,3 +94,5 @@ A component's properties and state are used by the React framework to determine 
 ## React Part 2: Reactivity
 
 The simon code helped me to understand how to implement react and make the website interactive.
+
+However, I had used chatgpt to write a lot of the ball.jsx and play.jsx files so I had to redo those and switch some things because it was super buggy.
