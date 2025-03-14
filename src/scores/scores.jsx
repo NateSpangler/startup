@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
 
 export function Scores() {
-  const [highscores, setHighscores] = useState([]);
-
-  useEffect(() => {
-    const savedHighscores = JSON.parse(localStorage.getItem('highscores')) || [];
-    setHighscores(savedHighscores);
-  }, []);
+  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
 
   return (
     <div>
-      <h2>High Scores</h2>
-      <ol>
-        {highscores.map((entry, index) => (
-          <li key={index}>
-            {entry.name}: {entry.score}
-          </li>
-        ))}
-      </ol>
+      <br></br>
+      <br></br>
+      
+      <h1 style={{ textAlign: "center" }}>High Scores</h1>
+      
+      <table>
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid white", padding: "8px" }}>Name</th>
+            <th style={{ border: "1px solid white", padding: "8px" }}>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {highscores.map((scoreEntry, index) => (
+            <tr key={index}>
+              <td style={{ border: "1px solid blue", padding: "8px" }}>{scoreEntry.name}</td>
+              <td style={{ border: "1px solid blue", padding: "8px" }}>{scoreEntry.score}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
 
 export default Scores;

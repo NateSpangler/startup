@@ -9,7 +9,7 @@ const Player = ({ gameWidth, gameHeight, setPlayerPosition }) => {
     const handleKeyDown = (event) => {
       setPosition((prev) => {
         let { x, y } = prev;
-        const speed = 35;
+        const speed = 25;
 
         if (event.key === "ArrowUp" && y > 0) y -= speed;
         if (event.key === "ArrowDown" && y < gameHeight - 40) y += speed; // Account for player height

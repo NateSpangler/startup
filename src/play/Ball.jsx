@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
+const Ball = ({ gameWidth, gameHeight, speed, setBallPosition }) => {
   const [position, setPosition] = useState({
+    id: Math.random(),
     x: Math.random() * gameWidth,
     y: Math.random() * gameHeight,
     dx: Math.random() > 0.5 ? speed : -speed,
@@ -10,36 +11,38 @@ const Ball = ({ gameWidth, gameHeight, speed, updateBallPosition }) => {
 
   const ballRef = useRef(null); // Ref to track the rendered ball element
 
-  
+
+
   useEffect(() => {
     const interval = setInterval(() => {
       setPosition((prev) => {
-        let { x, y, dx, dy } = prev;
-
+        let { x, y, dx, dy} = prev;
         // Bounce off walls
-        if (x + 20 > gameWidth || x < 0) dx = -dx;
-        if (y + 20 > gameHeight || y < 0) dy = -dy;
-
+        if (x + 40 > gameWidth || x < 0) dx = -dx;
+        if (y + 40 > gameHeight || y < 0) dy = -dy;
         return { x: x + dx, y: y + dy, dx, dy };
       });
     }, 50);
 
-    return () => clearInterval(interval);
-  }, [gameWidth, gameHeight, speed]);
-
+    
+  }, []);
   useEffect(() => {
-    // setPosition(position);
+      setBallPosition(position); // Update the parent component with the player's position
+      console.log("Ball state position:", position); // Log the state position for debugging
+
+  
     // Track rendered ball position
     if (ballRef.current) {
-      const { x, y } = ballRef.current.getBoundingClientRect();
+      const { left, top } = ballRef.current.getBoundingClientRect();
+      console.log(`Rendered Ball Position: left=${left}, top=${top}`);
     }
-  }, [position]);
+  }, [position, setBallPosition]);
 
   return (
     <div
       ref={ballRef} // Attach the ref here
       style={{
-        position: "absolute",
+        position: "relative",
         width: "40px",
         height: "40px",
         backgroundColor: "white",
