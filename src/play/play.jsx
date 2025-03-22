@@ -79,14 +79,14 @@ const Play = () => {
   };
 
 
-
+  
   return (
     <div
       style={{
         position: "relative",
         width: `${gameWidth}px`,
         height: `${gameHeight}px`,
-        border: "2px solid black",
+        border: "2px solid white",
         overflow: "hidden",
       }}
     >

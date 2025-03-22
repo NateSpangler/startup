@@ -11,10 +11,10 @@ const Player = ({ gameWidth, gameHeight, setPlayerPosition }) => {
         let { x, y } = prev;
         const speed = 25;
 
-        if (event.key === "ArrowUp" && y > 0) y -= speed;
-        if (event.key === "ArrowDown" && y < gameHeight - 40) y += speed; // Account for player height
-        if (event.key === "ArrowLeft" && x > 0) x -= speed;
-        if (event.key === "ArrowRight" && x < gameWidth - 40) x += speed; // Account for player width
+        if (event.key === "w" && y > 0) y -= speed;
+        if (event.key === "s" && y < gameHeight - 40) y += speed; // Account for player height
+        if (event.key === "a" && x > 0) x -= speed;
+        if (event.key === "d" && x < gameWidth - 40) x += speed; // Account for player width
 
         return { x, y };
       });

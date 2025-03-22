@@ -43,9 +43,7 @@ export default function App() {
             
             <p style={{textAlign:"center"}}>Did you know? The first video game ever created was a simple tennis game called Tennis for Two in 1958—more than 60 years ago! It was played on an oscilloscope, a device normally used to visualize electrical signals.</p>
             <br></br>
-            <br></br>
             <span style={{textAlign:"center"}}>Nate Spangler</span>
-            <br></br>
             <a style={{textAlign:"center"}} href="https://github.com/NateSpangler/startup">Github</a>
       </footer>
     </div>

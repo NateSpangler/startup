@@ -20,11 +20,7 @@ html {
   background-color: blue;
 }
 
-body,
-main {
-    min-height: 100dvh;
-}
-.body {
+.main {
     display: grid;
     min-height: 100%;
     margin: 0;
