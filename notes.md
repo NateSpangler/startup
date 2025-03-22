@@ -100,3 +100,14 @@ However, I had used chatgpt to write a lot of the ball.jsx and play.jsx files so
 I had to take away my powerup idea because it wasn't working well. I also made it so there is only one ball.
 
 I learned that you have to be super sareful when AI writes code, you have to understand every bit. Preferably, you write the code and then use AI to correct your code. 
+
+## Service Requests
+An API is like a doorway into the app
+
+
+The get request retrieves data
+The post request is meant to modify the state of the underlying data. It creates new resources.
+The put request is meant to update an existing resource.
+The delete request removes a record/resource.
+
+After making this request, the app will respond to your request usually in a json format.
