@@ -6,28 +6,19 @@ export function Login() {
   const [playerName, setPlayerName] = useState("");
   const navigate = useNavigate();
 
-  // Submit the player's name to the backend for user creation
-  const submitplayerName = async (e) => {
+  // Submit the player's name locally (no backend call)
+  const submitPlayerName = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('/api/auth/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: playerName }),
-      });
+    // Ensure the player has entered a name
+    if (playerName.trim()) {
+      // Save the player name to sessionStorage or localStorage
+      sessionStorage.setItem('playerName', playerName);
 
-      if (!response.ok) {
-        throw new Error('Failed to create user');
-      }
-
-      // Navigate to the play page after successful login
+      // Navigate to the play page after "logging in"
       navigate("/play");
-    } catch (error) {
-      console.error('Error creating user:', error);
-      alert('Error logging in. Please try again.');
+    } else {
+      alert('Please enter a valid name.');
     }
   };
 
@@ -39,7 +30,7 @@ export function Login() {
       <br />
       <br />
       <label htmlFor="name" className="entername">Enter your name: </label>
-      <form onSubmit={submitplayerName}>
+      <form onSubmit={submitPlayerName}>
         <input
           type="text"
           id="name"
