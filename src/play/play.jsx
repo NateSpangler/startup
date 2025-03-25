@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // Add useNavigate
+import axios from "axios";  // Import axios for HTTP requests
 import Player from "./Player";
 import Ball from "./Ball";
 import Powerup from "./Powerup"; // Assuming Powerup component is needed
@@ -14,55 +15,24 @@ const Play = () => {
   const [score, setScore] = useState(0);
   const [highScores, setHighScores] = useState([]);
   const [gameOver, setGameOver] = useState(false);
-  
+
   const navigate = useNavigate();  // For redirection
   
-  useEffect(() => {
-    // Check if the user is authenticated by verifying if there's a token
-    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
+  console.log("Play component rendered!");
 
-    if (!token) {
-      // If no token, redirect to login page
-      navigate('/login');
-    } else {
-      // Fetch the player's high scores
-      fetch('/api/scores', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token.split('=')[1]}`,
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          setHighScores(data); // Set the high scores if needed
-        })
-        .catch(error => {
-          console.error('Error fetching scores:', error);
-          alert('Error loading game data. Please try again.');
-        });
-    }
-  }, [navigate]);  // Depend on navigate for correct redirection logic
-  
-  const handleScoreSubmit = (score) => {
-    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
+  const handleScoreSubmit = async (score) => {
+    const playerName = sessionStorage.getItem("playerName") || "Unknown"; // Get playerName from sessionStorage
 
-    if (token) {
-      fetch('/api/score', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token.split('=')[1]}`,
-        },
-        body: JSON.stringify({ score: score }),
-      })
-        .then(response => response.json())
-        .then(updatedScores => {
-          setHighScores(updatedScores); // Update high scores after submission
-        })
-        .catch(error => {
-          console.error('Error submitting score:', error);
-          alert('Error submitting your score. Please try again.');
-        });
+    const scoreData = {
+      name: playerName,
+      score: score,
+    };
+
+    try {
+      await axios.post("http://localhost:4000/api/score", scoreData); // Send score data to backend
+      console.log("Score submitted successfully");
+    } catch (error) {
+      console.error("Error submitting score:", error);
     }
   };
 
@@ -107,7 +77,7 @@ const Play = () => {
       handleScoreSubmit(score);  // Submit the score to the backend
 
       let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-      let playerName = localStorage.getItem("playerName") || "Unknown";
+      let playerName = sessionStorage.getItem("playerName") || "Unknown";
 
       highscores.push({ name: playerName, score });
       highscores = highscores.sort((a, b) => b.score - a.score).slice(0, 10);

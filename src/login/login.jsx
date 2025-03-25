@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios to make API requests
 import './login.css';
 
 export function Login() {
@@ -9,50 +10,26 @@ export function Login() {
   } else {
     console.log("Running on the server");
   }
+
   const [playerName, setPlayerName] = useState("");
   const navigate = useNavigate();
 
+  // Submit player name and initiate game
   const submitPlayerName = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload on form submission
+
     console.log("submitPlayerName triggered, playerName:", playerName);
 
+    // Save the player name to sessionStorage (or localStorage) if needed
+    sessionStorage.setItem('playerName', playerName);
+    console.log("Stored playerName:", sessionStorage.getItem('playerName'));
 
-    // Ensure the player has entered a name
-    if (playerName.trim()) {
-      try {
-        const response = await fetch('/api/auth/create', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name: playerName }),
-        });
-  
-        // Log the response to the console
-        const data = await response.json();
-        console.log('Backend response:', data);
-  
-        if (response.ok) {
-          console.log("About to store playerName in sessionStorage:", playerName);
-          // Save the player name to sessionStorage (or localStorage) if needed
-          sessionStorage.setItem('playerName', playerName);
-          console.log("Stored playerName:", sessionStorage.getItem('playerName'));
+    // Navigate to the play page after "logging in"
+    navigate("/play");
 
-          // Navigate to the play page after "logging in"
-          navigate("/play");
-        } else {
-          throw new Error('Failed to create user');
-        }
-      } catch (error) {
-        console.error('Error creating user:', error);
-        alert('Error logging in. Please try again.');
-      }
-    } else {
-      alert('Please enter a valid name.');
-    }
+    // Now, you can submit the player name and score to the backend when the game is over
+    // This would happen after the game finishes and the score is known
   };
-  
-  
 
   return (
     <main>
