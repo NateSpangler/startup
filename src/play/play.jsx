@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";  // Add useNavigate
-import axios from "axios";  // Import axios for HTTP requests
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Player from "./Player";
 import Ball from "./Ball";
-import Powerup from "./Powerup"; // Assuming Powerup component is needed
+import Powerup from "./Powerup";
 
 const Play = () => {
   const gameWidth = 600;
@@ -13,79 +13,67 @@ const Play = () => {
   const [ballSpeed, setBallSpeed] = useState(10);
   const [isInvincible, setIsInvincible] = useState(false);
   const [score, setScore] = useState(0);
-  const [highScores, setHighScores] = useState([]);
   const [gameOver, setGameOver] = useState(false);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate();  // For redirection
-  
-  console.log("Play component rendered!");
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/user", { withCredentials: true });
+        if (!response.data.loggedIn) {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        navigate("/login");
+      }
+    };
+    fetchUser();
+  }, [navigate]);
 
   const handleScoreSubmit = async (score) => {
-    const playerName = sessionStorage.getItem("playerName") || "Unknown"; // Get playerName from sessionStorage
-
-    const scoreData = {
-      name: playerName,
-      score: score,
-    };
-
     try {
-      await axios.post("http://localhost:4000/api/score", scoreData); // Send score data to backend
+      await axios.post("http://localhost:4000/api/score", { score }, { withCredentials: true });
       console.log("Score submitted successfully");
     } catch (error) {
       console.error("Error submitting score:", error);
     }
   };
 
-  // Collision Detection (Fixed)
   useEffect(() => {
     if (gameOver) return;
     const checkCollision = () => {
       if (!isInvincible) {
-        if (ballPosition.x >= 0 && ballPosition.x <= gameWidth - 20 && ballPosition.y >= 0 && ballPosition.y <= gameHeight - 20) {
-          let difx = Math.abs(playerPosition.x - ballPosition.x);
-          let dify = Math.abs(playerPosition.y - ballPosition.y);
-
+        for (const ball of ballPosition) {
+          let difx = Math.abs(playerPosition.x - ball.x);
+          let dify = Math.abs(playerPosition.y - ball.y);
           if (difx < 40 && dify < 40) {
-            console.log("Collision detected! Ending game.");
             endGame();
             return;
           }
         }
       }
     };
-
     const collisionInterval = setInterval(checkCollision, 10);
     return () => clearInterval(collisionInterval);
   }, [playerPosition, ballPosition, isInvincible, gameOver]);
 
-  // Score timer
   useEffect(() => {
     if (gameOver) return;
-
     const scoreInterval = setInterval(() => {
       setScore((prev) => prev + 10);
     }, 100);
-
     return () => clearInterval(scoreInterval);
   }, [gameOver]);
 
-  // End the game and save high scores
   const endGame = () => {
     if (!gameOver) {
       setGameOver(true);
       alert(`Game Over! Your Score: ${score}`);
-      handleScoreSubmit(score);  // Submit the score to the backend
-
-      let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-      let playerName = sessionStorage.getItem("playerName") || "Unknown";
-
-      highscores.push({ name: playerName, score });
-      highscores = highscores.sort((a, b) => b.score - a.score).slice(0, 10);
-      localStorage.setItem("highscores", JSON.stringify(highscores));
+      handleScoreSubmit(score);
     }
   };
 
-  // Restart Game
   const handleRestart = () => {
     setGameOver(false);
     setScore(0);
@@ -95,15 +83,7 @@ const Play = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: `${gameWidth}px`,
-        height: `${gameHeight}px`,
-        border: "2px solid white",
-        overflow: "hidden",
-      }}
-    >
+    <div style={{ position: "relative", width: `${gameWidth}px`, height: `${gameHeight}px`, border: "2px solid white", overflow: "hidden" }}>
       {!gameOver ? (
         <>
           <Player gameWidth={gameWidth} gameHeight={gameHeight} setPlayerPosition={setPlayerPosition} />
