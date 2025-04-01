@@ -8,6 +8,22 @@ import { Play } from './play/play';
 import { Scores } from './scores/scores';
 
 export default function App() {
+  const [funFact, setFunFact] = useState('');
+
+  useEffect(() => {
+    const fetchFunFact = async () => {
+      try {
+        // Call the third party fun fact API
+        const response = await axios.get('https://uselessfacts.jsph.pl/random.json?language=en');
+        setFunFact(response.data.text);
+      } catch (error) {
+        console.error('Error fetching fun fact:', error);
+        setFunFact('Fun fact could not be loaded at this time.');
+      }
+    };
+
+    fetchFunFact();
+  }, []);
   return (
     <BrowserRouter>
     <div className="body bg-dark text-light">
@@ -40,12 +56,15 @@ export default function App() {
         </main>
 
         <footer>
-            
-            <p style={{textAlign:"center"}}>Did you know? The first video game ever created was a simple tennis game called Tennis for Two in 1958—more than 60 years ago! It was played on an oscilloscope, a device normally used to visualize electrical signals.</p>
-            <br></br>
-            <span style={{textAlign:"center"}}>Nate Spangler</span>
-            <a style={{textAlign:"center"}} href="https://github.com/NateSpangler/startup">Github</a>
-      </footer>
+          <p style={{ textAlign: "center" }}>
+            {funFact ? `Did you know? ${funFact}` : 'Loading fun fact...'}
+          </p>
+          <br />
+          <span style={{ textAlign: "center" }}>Nate Spangler</span>
+          <a style={{ textAlign: "center" }} href="https://github.com/NateSpangler/startup">
+            Github
+          </a>
+        </footer>
     </div>
     </BrowserRouter>
   );
