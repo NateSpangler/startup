@@ -99,7 +99,7 @@ However, I had used chatgpt to write a lot of the ball.jsx and play.jsx files so
 
 I had to take away my powerup idea because it wasn't working well. I also made it so there is only one ball.
 
-I learned that you have to be super sareful when AI writes code, you have to understand every bit. Preferably, you write the code and then use AI to correct your code. 
+I learned that you have to be super careful when AI writes code, you have to understand every bit. Preferably, you write the code and then use AI to correct your code. 
 
 ## Service Requests
 An API is like a doorway into the app
