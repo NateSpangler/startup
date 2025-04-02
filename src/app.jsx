@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Make sure Axios is imported
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
@@ -13,9 +14,10 @@ export default function App() {
   useEffect(() => {
     const fetchFunFact = async () => {
       try {
-        // Call the third party fun fact API
-        const response = await axios.get('https://uselessfacts.jsph.pl/random.json?language=en');
-        setFunFact(response.data.text);
+        // Make a request to your backend
+        const response = await axios.get('/api/funfact');
+        console.log('Fun fact:', response.data.fact);
+        setFunFact(response.data.fact);
       } catch (error) {
         console.error('Error fetching fun fact:', error);
         setFunFact('Fun fact could not be loaded at this time.');
@@ -24,40 +26,41 @@ export default function App() {
 
     fetchFunFact();
   }, []);
+  
   return (
     <BrowserRouter>
-    <div className="body bg-dark text-light">
+      <div className="body bg-dark text-light">
         <header>
-          <br></br>
-            <button className="shiny-cta"> Pong Chaos</button>
-            <nav>
-                <menu>
-                    <li>
-                      <NavLink className="nav-link" to="">
-                        Home
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="nav-link" to='scores'>
-                        High Scores
-                      </NavLink>
-                    </li>
-                </menu>
-           </nav>
+          <br />
+          <button className="shiny-cta"> Pong Chaos</button>
+          <nav>
+            <menu>
+              <li>
+                <NavLink className="nav-link" to="">
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="nav-link" to="scores">
+                  High Scores
+                </NavLink>
+              </li>
+            </menu>
+          </nav>
         </header>
 
         <main>
-            <Routes>
-              <Route path='/' element={<Login />} exact />
-              <Route path='/play' element={<Play />} />
-              <Route path='/scores' element={<Scores />} />
-              <Route path='*' element={<NotFound />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/play" element={<Play />} />
+            <Route path="/scores" element={<Scores />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </main>
 
         <footer>
           <p style={{ textAlign: "center" }}>
-            {funFact ? `Did you know? ${funFact}` : 'Loading fun fact...'}
+            {funFact ? `Did you know? ${funFact}` : "Loading fun fact..."}
           </p>
           <br />
           <span style={{ textAlign: "center" }}>Nate Spangler</span>
@@ -65,12 +68,15 @@ export default function App() {
             Github
           </a>
         </footer>
-    </div>
+      </div>
     </BrowserRouter>
   );
 }
 
-
 function NotFound() {
-  return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown. Router problemsss</main>;
+  return (
+    <main className="container-fluid bg-secondary text-center">
+      404: Return to sender. Address unknown. Router problemsss
+    </main>
+  );
 }

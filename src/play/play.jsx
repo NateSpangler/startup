@@ -17,18 +17,13 @@ const Play = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/api/user", { withCredentials: true });
-        if (!response.data.loggedIn) {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        navigate("/login");
-      }
-    };
-    fetchUser();
+    // Check if playerName is stored in sessionStorage
+    const playerName = sessionStorage.getItem("playerName");
+
+    if (!playerName) {
+      // Redirect to the login page if no playerName found
+      navigate("/");
+    }
   }, [navigate]);
 
   const handleScoreSubmit = async (score) => {

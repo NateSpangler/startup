@@ -4,28 +4,24 @@ import axios from 'axios';
 import './login.css';
 
 export function Login() {
-  const [playerName, setPlayerName] = useState("");
-  const navigate = useNavigate();
-
-  const submitPlayerName = async (e) => {
-    e.preventDefault();
-
-    if (!playerName.trim()) {
-      alert("Please enter a valid username.");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://localhost:4000/api/login", { name: playerName });
-      if (response.status === 200) {
-        sessionStorage.setItem("playerName", playerName);
-        navigate("/play");
+  export function Login() {
+    const [playerName, setPlayerName] = useState("");
+    const navigate = useNavigate();
+  
+    const submitPlayerName = async (e) => {
+      e.preventDefault();
+  
+      if (!playerName.trim()) {
+        alert("Please enter a valid username.");
+        return;
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Login failed. Please try again.");
-    }
-  };
+  
+      // Store the playerName in sessionStorage instead of using sessions or cookies
+      sessionStorage.setItem("playerName", playerName);
+  
+      // After login, navigate to the play page
+      navigate("/play");
+    };
 
   return (
     <main>

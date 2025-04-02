@@ -1,22 +1,20 @@
 const express = require('express');
 const path = require('path');
-const session = require('express-session');
 const cors = require('cors');
+const axios = require('axios'); 
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
-app.use(cors());
+// Enable CORS with credentials and specify the origin for your frontend
+const corsOptions = {
+  origin: 'http://localhost:5173', // Frontend URL (change if your frontend is running on a different port)
+  credentials: true,  // Allow sending and receiving cookies
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
-
-// Session middleware
-app.use(session({
-  secret: 'supersecretkey',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
 
 let users = {}; // Store users in-memory (consider using a database in production)
 let scores = [];
@@ -39,14 +37,6 @@ function updateScores(newScore) {
   return scores;
 }
 
-// Middleware to check if user is logged in
-function requireLogin(req, res, next) {
-  if (!req.session.username) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
-  next();
-}
-
 // Login or register a user
 app.post('/api/login', (req, res) => {
   const { username } = req.body;
@@ -56,20 +46,22 @@ app.post('/api/login', (req, res) => {
   if (!users[username]) {
     users[username] = { username };
   }
-  req.session.username = username;
-  res.status(200).json({ message: 'Login successful', user: users[username] });
+  // Just return the username without using session
+  res.status(200).json({ message: 'Login successful', username });
 });
 
 // Logout a user
 app.post('/api/logout', (req, res) => {
-  req.session.destroy();
+  // No session to destroy, just a logout message
   res.status(200).json({ message: 'Logout successful' });
 });
 
-// Submit a score (restricted to logged-in users)
-app.post('/api/score', requireLogin, (req, res) => {
-  const { score } = req.body;
-  const username = req.session.username;
+// Submit a score (no longer need a session check)
+app.post('/api/score', (req, res) => {
+  const { score, username } = req.body; // Assume username is sent with the score
+  if (!username) {
+    return res.status(400).json({ message: 'Username is required' });
+  }
   if (score === undefined) {
     return res.status(400).json({ message: 'Score is required' });
   }
@@ -80,6 +72,21 @@ app.post('/api/score', requireLogin, (req, res) => {
 // Get high scores
 app.get('/api/scores', (req, res) => {
   res.status(200).json(scores);
+});
+
+// Get a random fact (Useless Facts API)
+app.get('/api/funfact', async (req, res) => {
+  try {
+    const response = await axios.get('https://uselessfacts.jsph.pl/random.json?language=en');
+    if (response.data && response.data.text) {
+      res.json({ fact: response.data.text });
+    } else {
+      res.status(500).json({ message: 'Fun fact could not be loaded at this time.' });
+    }
+  } catch (error) {
+    console.error('Error fetching fun fact:', error);
+    res.status(500).json({ message: 'Fun fact could not be loaded at this time.' });
+  }
 });
 
 // Catch-all route for serving the frontend
