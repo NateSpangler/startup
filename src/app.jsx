@@ -26,7 +26,7 @@ export default function App() {
 
     fetchFunFact();
   }, []);
-  
+
   return (
     <BrowserRouter>
       <div className="body bg-dark text-light">
@@ -64,6 +64,7 @@ export default function App() {
           </p>
           <br />
           <span style={{ textAlign: "center" }}>Nate Spangler</span>
+          <br></br>
           <a style={{ textAlign: "center" }} href="https://github.com/NateSpangler/startup">
             Github
           </a>

@@ -16,10 +16,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-let users = {}; // Store users in-memory (consider using a database in production)
+let users = {}; 
 let scores = [];
 
 function updateScores(newScore) {
+  console.log("Before update:", scores); // Log scores before updating
   let found = false;
   for (const [i, prevScore] of scores.entries()) {
     if (newScore.score > prevScore.score) {
@@ -34,6 +35,7 @@ function updateScores(newScore) {
   if (scores.length > 10) {
     scores.length = 10;
   }
+  console.log("After update:", scores); // Log scores after updating
   return scores;
 }
 
@@ -58,7 +60,7 @@ app.post('/api/logout', (req, res) => {
 
 // Submit a score (no longer need a session check)
 app.post('/api/score', (req, res) => {
-  const { score, username } = req.body; // Assume username is sent with the score
+  const { username, score } = req.body; // Assume username is sent with the score
   if (!username) {
     return res.status(400).json({ message: 'Username is required' });
   }
