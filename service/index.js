@@ -6,15 +6,15 @@ const axios = require('axios');
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
-// Enable CORS with credentials and specify the origin for your frontend
+
 const corsOptions = {
-  origin: 'http://localhost:5173', // Frontend URL (change if your frontend is running on a different port)
+  origin: 'http://localhost:5173', // Frontend URL 
   credentials: true,  // Allow sending and receiving cookies
 };
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'dist')));
+
 
 let users = {}; 
 let scores = [];
