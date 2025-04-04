@@ -7,7 +7,7 @@ export function Scores() {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/scores', {
+        const response = await fetch('https://startup.pongchaos.com/api/scores', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });

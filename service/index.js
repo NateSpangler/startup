@@ -8,10 +8,12 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Frontend URL 
+  origin: 'https://startup.pongchaos.com', // Frontend URL 
   credentials: true,  // Allow sending and receiving cookies
 };
 app.use(cors(corsOptions));
+// Handle preflight (OPTIONS) requests
+app.options('*', cors(corsOptions)); // This handles the OPTIONS preflight requests
 
 app.use(express.json());
 app.use(express.static('public')); 

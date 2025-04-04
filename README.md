@@ -121,11 +121,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Node.js/Express HTTP service** - I did this.
-- [x] **Static middleware for frontend** - I did this.
-- [x] **Calls to third party endpoints** - I did this.
-- [x] **Backend service endpoints** - I did this.
-- [x] **Frontend calls service endpoints** - I did this.
+- [x] **Node.js/Express HTTP service** - I did this, was not very hard.
+- [x] **Static middleware for frontend** - Included static middleware for my frontend.
+- [x] **Calls to third party endpoints** - This was very finicky for me, took lots of debugging but I figured out the calls to third party endpoints for my random fact at the bottom of the page.
+- [x] **Backend service endpoints** - I included get and other back end service endpoints to link with the front end.
+- [x] **Frontend calls service endpoints** - Included fetch and other front end service endpoints to link with the back end.
 
 ## 🚀 DB/Login deliverable
 
