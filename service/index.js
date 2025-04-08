@@ -18,65 +18,109 @@ app.options('*', cors(corsOptions)); // This handles the OPTIONS preflight reque
 app.use(express.json());
 app.use(express.static('public')); 
 
-let users = {}; 
-let scores = [];
+//let users = {}; 
+//let scores = [];
 
-function updateScores(newScore) {
-  console.log("Before update:", scores); // Log scores before updating
-  let found = false;
-  for (const [i, prevScore] of scores.entries()) {
-    if (newScore.score > prevScore.score) {
-      scores.splice(i, 0, newScore);
-      found = true;
-      break;
-    }
-  }
-  if (!found) {
-    scores.push(newScore);
-  }
-  if (scores.length > 10) {
-    scores.length = 10;
-  }
-  console.log("After update:", scores); // Log scores after updating
-  return scores;
-}
+const { connectToDB } = require('./mongoClient'); // Import the MongoDB connection function
+
+// function updateScores(newScore) {
+//   console.log("Before update:", scores); // Log scores before updating
+//   let found = false;
+//   for (const [i, prevScore] of scores.entries()) {
+//     if (newScore.score > prevScore.score) {
+//       scores.splice(i, 0, newScore);
+//       found = true;
+//       break;
+//     }
+//   }
+//   if (!found) {
+//     scores.push(newScore);
+//   }
+//   if (scores.length > 10) {
+//     scores.length = 10;
+//   }
+//   console.log("After update:", scores); // Log scores after updating
+//   return scores;
+// }
 
 // Login or register a user
-app.post('/api/login', (req, res) => {
-  const { username } = req.body;
-  if (!username) {
-    return res.status(400).json({ message: 'Username is required' });
-  }
-  if (!users[username]) {
-    users[username] = { username };
-  }
-  // Just return the username without using session
-  res.status(200).json({ message: 'Login successful', username });
-});
+// app.post('/api/login', (req, res) => {
+//   const { username } = req.body;
+//   if (!username) {
+//     return res.status(400).json({ message: 'Username is required' });
+//   }
+//   if (!users[username]) {
+//     users[username] = { username };
+//   }
+//   // Just return the username without using session
+//   res.status(200).json({ message: 'Login successful', username });
+// });
 
-// Logout a user
-app.post('/api/logout', (req, res) => {
-  // No session to destroy, just a logout message
-  res.status(200).json({ message: 'Logout successful' });
-});
 
-// Submit a score (no longer need a session check)
-app.post('/api/score', (req, res) => {
-  const { username, score } = req.body; // Assume username is sent with the score
+
+
+app.post('/api/score', async (req, res) => {
+  const { username, score } = req.body;
   if (!username) {
     return res.status(400).json({ message: 'Username is required' });
   }
   if (score === undefined) {
     return res.status(400).json({ message: 'Score is required' });
   }
-  scores = updateScores({ name: username, score });
-  res.status(200).json(scores);
+
+  try {
+    const db = await connectToDB();
+    const collection = db.collection('scores');
+    // Insert the new score. You might also choose to include a timestamp.
+    await collection.insertOne({ username, score, createdAt: new Date() });
+    res.status(200).json({ message: 'Score saved successfully' });
+  } catch (error) {
+    console.error("Error saving score:", error);
+    res.status(500).json({ message: 'Error saving score' });
+  }
 });
 
-// Get high scores
-app.get('/api/scores', (req, res) => {
-  res.status(200).json(scores);
+
+// Logout a user
+ app.post('/api/logout', (req, res) => {
+   // No session to destroy, just a logout message
+   res.status(200).json({ message: 'Logout successful' });
+ });
+
+// // Submit a score (no longer need a session check)
+// app.post('/api/score', (req, res) => {
+//   const { username, score } = req.body; // Assume username is sent with the score
+//   if (!username) {
+//     return res.status(400).json({ message: 'Username is required' });
+//   }
+//   if (score === undefined) {
+//     return res.status(400).json({ message: 'Score is required' });
+//   }
+//   scores = updateScores({ name: username, score });
+//   res.status(200).json(scores);
+// });
+
+// // Get high scores
+// app.get('/api/scores', (req, res) => {
+//   res.status(200).json(scores);
+// });
+
+app.get('/api/scores', async (req, res) => {
+  try {
+    const db = await connectToDB();
+    const collection = db.collection('scores');
+    // Query for the top 10 scores, sorted descending
+    const highscores = await collection.find({})
+      .sort({ score: -1 })
+      .limit(10)
+      .toArray();
+    res.status(200).json(highscores);
+  } catch (err) {
+    console.error('Error fetching scores:', err);
+    res.status(500).json({ message: 'Error fetching scores' });
+  }
 });
+
 
 // Get a random fact (Useless Facts API)
 app.get('/api/funfact', async (req, res) => {
