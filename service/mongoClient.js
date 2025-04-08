@@ -4,9 +4,10 @@ const config = require('./dbConfig.json');
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 
 // Connect to the database cluster
-const client = new MongoClient(url);
-const db = client.db('rental');
-const collection = db.collection('house');
+const client = new MongoClient(uri);
+await client.connect();
+const db = client.db('pongchaos'); // database name
+
 
 async function main() {
   try {
