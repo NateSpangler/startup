@@ -2,23 +2,18 @@ const { MongoClient } = require('mongodb');
 const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
-
-// Connect to the database cluster
-const client = new MongoClient(uri);
-await client.connect();
-const db = client.db('pongchaos'); // database name
+const client = new MongoClient(url);
 
 
-async function main() {
-  try {
-    // Test that you can connect to the database
-    await db.command({ ping: 1 });
-    console.log(`DB connected to ${config.hostname}`);
-  } catch (ex) {
-    console.log(`Connection failed to ${url} because ${ex.message}`);
-    process.exit(1);
+let _db = null;
+
+async function connectToDB() {
+  if (!_db) {
+    await client.connect();
+    console.log(`Connected to MongoDB: ${config.hostname}`);
+    _db = client.db(config.dbName);
   }
-
+  return _db;
 }
 
-main();
+module.exports = { connectToDB };
