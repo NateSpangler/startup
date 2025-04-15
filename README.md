@@ -132,10 +132,10 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
 - [x] **User registration** - When a player starts a game, they enter their name. This name is stored in both ther session storage and the users db. If the user has not played before it is added to the users db.
-- [ ] **User login and logout** - Everytime a game is started the user is logged in and everytime the game ends they are logged out.
-- [ ] **Stores data in MongoDB** - My MongoDB has 2 databases-"users" which has the usernames of all players that have logged in. And "scores", the username and scores for each authenticated player.
-- [ ] **Stores credentials in MongoDB** - The player's credential is their name, stored separate of the scores in the users db. 
-- [ ] **Restricts functionality based on authentication** - When a game is "complete" the score and username(stored in session storage) are not automatically submitted. It authenticates that the session storage username is already in the user db before submitting the score. If it is not there, the score is not submitted.
+- [x] **User login and logout** - Everytime a game is started the user is logged in and everytime the game ends they are logged out.
+- [x] **Stores data in MongoDB** - My MongoDB has 2 databases-"users" which has the usernames of all players that have logged in. And "scores", the username and scores for each authenticated player.
+- [x] **Stores credentials in MongoDB** - The player's credential is their name, stored separate of the scores in the users db. 
+- [x] **Restricts functionality based on authentication** - When a game is "complete" the score and username(stored in session storage) are not automatically submitted. It authenticates that the session storage username is already in the user db before submitting the score. If it is not there, the score is not submitted.
 
 ## 🚀 WebSocket deliverable
 
