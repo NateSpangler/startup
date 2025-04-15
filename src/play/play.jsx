@@ -24,10 +24,11 @@ const Play = () => {
     const newScore = { username: username, score: score};
 
     try {
-      await fetch('https://startup.pongchaos.com/api/score', {
+      await fetch('/api/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newScore),
+        credentials: 'include',
       });
       console.log("Score submitted successfully!");
     } catch (error) {

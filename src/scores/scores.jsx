@@ -7,9 +7,10 @@ export function Scores() {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await fetch('https://startup.pongchaos.com/api/scores', {
+        const response = await fetch('/api/scores', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
         });
         const data = await response.json();
         setHighscores(data);
@@ -38,7 +39,7 @@ export function Scores() {
           <tbody>
             {highscores.map((scoreEntry, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid blue', padding: '8px' }}>{scoreEntry.name}</td>
+                <td style={{ border: '1px solid blue', padding: '8px' }}>{scoreEntry.username}</td>
                 <td style={{ border: '1px solid blue', padding: '8px' }}>{scoreEntry.score}</td>
               </tr>
             ))}

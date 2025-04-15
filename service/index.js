@@ -1,66 +1,52 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const axios = require('axios'); 
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+//import cors from 'cors';
+import axios from 'axios'; 
+import { connectToDB } from './mongoClient.js'; // Import the MongoDB connection function
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const corsOptions = {
-  origin: 'https://startup.pongchaos.com', // Frontend URL 
-  credentials: true,  // Allow sending and receiving cookies
-};
-app.use(cors(corsOptions));
-// Handle preflight (OPTIONS) requests
-app.options('*', cors(corsOptions)); // This handles the OPTIONS preflight requests
+
+
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     const allowedOrigins = ['http://localhost:5173', 'https://startup.pongchaos.com'];
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   methods: ['GET', 'POST', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type'],
+//   credentials: true, // Ensure credentials are allowed
+// }));
+
+// Handle OPTIONS preflight requests specifically
+app.options('/api/score', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // or use 'https://startup.pongchaos.com' for production
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(204); // No content for OPTIONS response
+});
 
 app.use(express.json());
-app.use(express.static('public')); 
 
-//let users = {}; 
-//let scores = [];
-
-const { connectToDB } = require('./mongoClient'); // Import the MongoDB connection function
-
-// function updateScores(newScore) {
-//   console.log("Before update:", scores); // Log scores before updating
-//   let found = false;
-//   for (const [i, prevScore] of scores.entries()) {
-//     if (newScore.score > prevScore.score) {
-//       scores.splice(i, 0, newScore);
-//       found = true;
-//       break;
-//     }
-//   }
-//   if (!found) {
-//     scores.push(newScore);
-//   }
-//   if (scores.length > 10) {
-//     scores.length = 10;
-//   }
-//   console.log("After update:", scores); // Log scores after updating
-//   return scores;
-// }
-
-// Login or register a user
-// app.post('/api/login', (req, res) => {
-//   const { username } = req.body;
-//   if (!username) {
-//     return res.status(400).json({ message: 'Username is required' });
-//   }
-//   if (!users[username]) {
-//     users[username] = { username };
-//   }
-//   // Just return the username without using session
-//   res.status(200).json({ message: 'Login successful', username });
-// });
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 
 
 app.post('/api/score', async (req, res) => {
   const { username, score } = req.body;
+  console.log("POST /api/score hit", req.body); // Add this line
+
   if (!username) {
     return res.status(400).json({ message: 'Username is required' });
   }
@@ -72,7 +58,7 @@ app.post('/api/score', async (req, res) => {
     const db = await connectToDB();
     const collection = db.collection('scores');
     // Insert the new score. You might also choose to include a timestamp.
-    await collection.insertOne({ username, score, createdAt: new Date() });
+    await collection.insertOne({ username, score});
     res.status(200).json({ message: 'Score saved successfully' });
   } catch (error) {
     console.error("Error saving score:", error);
@@ -87,23 +73,6 @@ app.post('/api/score', async (req, res) => {
    res.status(200).json({ message: 'Logout successful' });
  });
 
-// // Submit a score (no longer need a session check)
-// app.post('/api/score', (req, res) => {
-//   const { username, score } = req.body; // Assume username is sent with the score
-//   if (!username) {
-//     return res.status(400).json({ message: 'Username is required' });
-//   }
-//   if (score === undefined) {
-//     return res.status(400).json({ message: 'Score is required' });
-//   }
-//   scores = updateScores({ name: username, score });
-//   res.status(200).json(scores);
-// });
-
-// // Get high scores
-// app.get('/api/scores', (req, res) => {
-//   res.status(200).json(scores);
-// });
 
 app.get('/api/scores', async (req, res) => {
   try {
@@ -118,6 +87,18 @@ app.get('/api/scores', async (req, res) => {
   } catch (err) {
     console.error('Error fetching scores:', err);
     res.status(500).json({ message: 'Error fetching scores' });
+  }
+});
+
+app.get('/api/insert-test', async (req, res) => {
+  try {
+    const db = await connectToDB();
+    const collection = db.collection('testCollection');
+    const result = await collection.insertOne({ hello: 'world' });
+    res.status(200).json({ message: 'Data inserted!', result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Insert failed', error: err.message });
   }
 });
 
@@ -137,14 +118,48 @@ app.get('/api/funfact', async (req, res) => {
   }
 });
 
+app.post('/api/register', async (req, res) => {
+  const { username } = req.body;
+
+  if (!username) {
+    return res.status(400).json({ message: 'Username is required' });
+  }
+
+  try {
+    const db = await connectToDB();
+    const users = db.collection('users');
+
+    // Check if the user already exists
+    const existingUser = await users.findOne({ username });
+
+    if (!existingUser) {
+      await users.insertOne({ username });
+      console.log('New user registered:', username);
+    }
+
+    res.status(200).json({ message: 'User registration checked' });
+  } catch (error) {
+    console.error('Error checking/adding user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Catch-all route for serving the frontend
 app.get('*', (req, res) => {
+  // res.sendFile(path.join(__dirname, '../public/index.html'));
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Default error handler
 app.use((err, req, res, next) => {
-  res.status(500).json({ type: err.name, message: err.message });
+  if (req.method === 'OPTIONS') {
+    // Let OPTIONS requests fail silently if CORS rejects them
+    res.sendStatus(204);
+  } else {
+    console.error('Unhandled error:', err.stack);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 // Start server

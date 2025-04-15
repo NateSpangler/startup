@@ -1,6 +1,7 @@
 {
   "name": "startup",
   "version": "1.0.0",
+  "type": "module",
   "description": "[My Notes](notes.md)",
   "main": "main.js",
   "scripts": {
