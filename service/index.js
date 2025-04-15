@@ -41,11 +41,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
 
-
-
 app.post('/api/score', async (req, res) => {
   const { username, score } = req.body;
-  console.log("POST /api/score hit", req.body); // Add this line
+  console.log("POST /api/score hit", req.body);
 
   if (!username) {
     return res.status(400).json({ message: 'Username is required' });
@@ -56,15 +54,24 @@ app.post('/api/score', async (req, res) => {
 
   try {
     const db = await connectToDB();
+    
+    // Check if the user exists in the users collection
+    const user = await db.collection('users').findOne({ username });
+    if (!user) {
+      return res.status(403).json({ message: 'User not registered. Score not allowed.' });
+    }
+
+    // Save the score
     const collection = db.collection('scores');
-    // Insert the new score. You might also choose to include a timestamp.
-    await collection.insertOne({ username, score});
+    await collection.insertOne({ username, score });
+
     res.status(200).json({ message: 'Score saved successfully' });
   } catch (error) {
     console.error("Error saving score:", error);
     res.status(500).json({ message: 'Error saving score' });
   }
 });
+
 
 
 // Logout a user
