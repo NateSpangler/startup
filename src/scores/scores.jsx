@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 export function Scores() {
   const [highscores, setHighscores] = useState([]);
   const [error, setError] = useState('');
+  const [serverMessage, setServerMessage] = useState('');
 
   useEffect(() => {
     const fetchScores = async () => {
@@ -21,6 +22,29 @@ export function Scores() {
     };
 
     fetchScores();
+
+  // Set up WebSocket connection
+  const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+  const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+  socket.onopen = () => {
+    console.log('WebSocket connected');
+  };
+
+  socket.onmessage = (event) => {
+    console.log('WebSocket message from server:', event.data);
+    setServerMessage(event.data);
+  };
+
+  socket.onerror = (error) => {
+    console.error('WebSocket error:', error);
+  };
+
+  return () => {
+    socket.close();
+  };
+
+
   }, []);
 
   return (
@@ -47,6 +71,12 @@ export function Scores() {
         </table>
       ) : (
         <p style={{ textAlign: 'center' }}>No scores available.</p>
+      )}
+      {/* Display live message from server */}
+      {serverMessage && (
+        <p style={{ textAlign: 'center', marginTop: '16px' }}>
+          <em>Live update: {serverMessage}</em>
+        </p>
       )}
     </div>
   );

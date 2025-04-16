@@ -129,35 +129,29 @@ app.use((_req, res) => {
 });
 
 
-// Start server
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
-
-
-// Attach WebSocket server to the existing Express server
+import http from 'http';
 import { WebSocketServer } from 'ws';
 
-const wss = new WebSocketServer({ server });
+// Create HTTP server from Express app
+const server = http.createServer(app);
+
+// Set up WebSocket server
+const wss = new WebSocketServer({ server, path: '/ws' });
 
 wss.on('connection', (ws) => {
-  console.log('🔌 WebSocket client connected');
+  console.log('New WebSocket connection');
+  ws.send('WebSocket connected!');
 
+  // You can listen for messages from the client like this
   ws.on('message', (message) => {
-    const msg = message.toString();
-    console.log('📨 Received message:', msg);
-
-    // Optional: broadcast to all clients
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === ws.OPEN) {
-        client.send(`📢 ${msg}`);
-      }
-    });
+    console.log(`Received: ${message}`);
+    ws.send(`Echo: ${message}`);
   });
+});
 
-  ws.on('close', () => {
-    console.log('❌ WebSocket client disconnected');
-  });
+// Start the server
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
 
 
