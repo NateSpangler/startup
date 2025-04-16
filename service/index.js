@@ -1,46 +1,23 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-//import cors from 'cors';
 import axios from 'axios'; 
 import { connectToDB } from './mongoClient.js'; // Import the MongoDB connection function
+
+
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
-
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     const allowedOrigins = ['http://localhost:5173', 'https://startup.pongchaos.com'];
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type'],
-//   credentials: true, // Ensure credentials are allowed
-// }));
-
-// Handle OPTIONS preflight requests specifically
-app.options('/api/score', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // or use 'https://startup.pongchaos.com' for production
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(204); // No content for OPTIONS response
-});
-
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'dist')));
 
+app.use(express.static('public'));
 
+const apiRouter = express.Router();
+app.use(`/api`, apiRouter);
+
+// Add a user and score the to the scores db
 app.post('/api/score', async (req, res) => {
   const { username, score } = req.body;
   console.log("POST /api/score hit", req.body);
@@ -55,7 +32,7 @@ app.post('/api/score', async (req, res) => {
   try {
     const db = await connectToDB();
     
-    // Check if the user exists in the users collection
+    // Authenticate that the user exists in the users db
     const user = await db.collection('users').findOne({ username });
     if (!user) {
       return res.status(403).json({ message: 'User not registered. Score not allowed.' });
@@ -97,18 +74,6 @@ app.get('/api/scores', async (req, res) => {
   }
 });
 
-app.get('/api/insert-test', async (req, res) => {
-  try {
-    const db = await connectToDB();
-    const collection = db.collection('testCollection');
-    const result = await collection.insertOne({ hello: 'world' });
-    res.status(200).json({ message: 'Data inserted!', result });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Insert failed', error: err.message });
-  }
-});
-
 
 // Get a random fact (Useless Facts API)
 app.get('/api/funfact', async (req, res) => {
@@ -125,6 +90,7 @@ app.get('/api/funfact', async (req, res) => {
   }
 });
 
+// Check if user is registered in user db and add them if not
 app.post('/api/register', async (req, res) => {
   const { username } = req.body;
 
@@ -152,24 +118,56 @@ app.post('/api/register', async (req, res) => {
 });
 
 
-// Catch-all route for serving the frontend
-app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname, '../public/index.html'));
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// Default error handler
+app.use(function (err, req, res, next) {
+  res.status(500).send({ type: err.name, message: err.message });
 });
 
-// Default error handler
-app.use((err, req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    // Let OPTIONS requests fail silently if CORS rejects them
-    res.sendStatus(204);
-  } else {
-    console.error('Unhandled error:', err.stack);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
 });
+
 
 // Start server
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+
+// Attach WebSocket server to the existing Express server
+import { WebSocketServer } from 'ws';
+
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', (ws) => {
+  console.log('🔌 WebSocket client connected');
+
+  ws.on('message', (message) => {
+    const msg = message.toString();
+    console.log('📨 Received message:', msg);
+
+    // Optional: broadcast to all clients
+    wss.clients.forEach((client) => {
+      if (client !== ws && client.readyState === ws.OPEN) {
+        client.send(`📢 ${msg}`);
+      }
+    });
+  });
+
+  ws.on('close', () => {
+    console.log('❌ WebSocket client disconnected');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+

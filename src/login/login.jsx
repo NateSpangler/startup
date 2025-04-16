@@ -2,26 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
-// export function Login() {
-//   const [username, setusername] = useState("");  // Declare state for username
-//   const navigate = useNavigate();
-  
-//   const submitusername = async (e) => {
-//     e.preventDefault();
-
-//     // Check if the username is valid
-//     if (!username.trim()) {  // Check if username is empty or just spaces
-//       alert("Please enter a valid username.");
-//       return;
-//     }
-
-//     // Store the username in sessionStorage
-//     sessionStorage.setItem("username", username);
-
-//     // After login, navigate to the play page
-//     navigate("/play");
-//   };
-
 export function Login() {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
@@ -46,13 +26,29 @@ export function Login() {
         body: JSON.stringify({ username }),
       });
 
+      // 🔌 Establish WebSocket connection after successful login
+      const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+      const socket = new WebSocket(`${protocol}://${window.location.host}`);
+
+      socket.onopen = () => {
+        console.log('WebSocket connected');
+        socket.send(`User ${username} has logged in`);
+      };
+
+      socket.onmessage = (event) => {
+        console.log('Message from server:', event.data);
+      };
+
+      socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+
       navigate('/play'); // Redirect to game
     } catch (err) {
       console.error('Error registering user:', err);
       setError('Could not register user');
     }
   };
-  
 
   return (
     <main>
@@ -64,8 +60,8 @@ export function Login() {
           className="entername"
           name="name"
           placeholder="Your name"
-          onChange={(e) => setUsername(e.target.value)}  // Correct the onChange function
-          value={username}  // Use username here
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
         <button type="submit" className="shiny-cta">Let's do this</button>
       </form>
