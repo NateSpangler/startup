@@ -48,7 +48,7 @@ export function Scores() {
 
 
   }, []);
-
+  // Display the scores
   return (
     <div>
       <br />
