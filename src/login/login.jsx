@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
+// login user
 export function Login() {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
