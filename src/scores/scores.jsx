@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
+
 export function Scores() {
   const [highscores, setHighscores] = useState([]);
   const [error, setError] = useState('');
   const [serverMessage, setServerMessage] = useState('');
-
+  
+  // Fetch scores from the server
   useEffect(() => {
     const fetchScores = async () => {
       try {
@@ -83,4 +85,3 @@ export function Scores() {
 }
 
 export default Scores;
-
