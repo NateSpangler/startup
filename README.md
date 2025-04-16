@@ -143,6 +143,14 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Backend listens for WebSocket connection** - I am using ws with WebSocketServer and listening for connections — logging when clients connect and when messages are received. 
 - [x] **Frontend makes WebSocket connection** - My Scores component connects to the WebSocket server in useEffect, and I am logging when the connection is established. 
-- [x] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Data sent over WebSocket connection** - I am sending a message (Hello from the browser!) to the server and it's echoed back.
+- [x] **WebSocket data displayed** - I display the incoming WebSocket message in a <p> tag — "Message from server: {serverMessage}"
+- [x] **Application is fully functional** - I have
+
+A working login system tied to MongoDB
+
+Scores being saved and retrieved
+
+WebSocket added on top of a real game system
+
+No dummy placeholders or fake API responses
