@@ -113,7 +113,8 @@ The delete request removes a record/resource.
 After making this request, the app will respond to your request usually in a json format.
 
 ## DB
-
+the mongo DB is how you save info from anywhere in the world
+Allows your website to be connected from any computer, instead of using local storage
 
 ## Websocket
 Not super difficult, just make sure to debug it and see if the messages are sending from the front and backend as well as the server
