@@ -111,3 +111,9 @@ The put request is meant to update an existing resource.
 The delete request removes a record/resource.
 
 After making this request, the app will respond to your request usually in a json format.
+
+## DB
+
+
+## Websocket
+Not super difficult, just make sure to debug it and see if the messages are sending from the front and backend as well as the server
